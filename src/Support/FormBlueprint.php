@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Madbox99\FilamentFormBuilder\Support;
 
+use Illuminate\Support\Facades\Validator;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
 
 final class FormBlueprint
@@ -40,5 +41,25 @@ final class FormBlueprint
         }
 
         return $payload;
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public static function validate(array $payload): void
+    {
+        Validator::make($payload, self::rules())->validate();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function rules(): array
+    {
+        return [
+            'schema_version' => ['required', 'integer', 'in:'.self::SCHEMA_VERSION],
+        ];
     }
 }
