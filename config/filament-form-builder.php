@@ -110,6 +110,7 @@ return [
         'navigation_group' => 'Forms',
         'register_forms_resource' => true,
         'register_submissions_resource' => true,
+        'register_help_page' => true,
     ],
 
 ];

@@ -6,6 +6,7 @@ namespace Madbox99\FilamentFormBuilder;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Madbox99\FilamentFormBuilder\Filament\Pages\FormJsonSchemaHelp;
 use Madbox99\FilamentFormBuilder\Filament\Resources\FormSubmissions\FormSubmissionResource;
 use Madbox99\FilamentFormBuilder\Filament\Resources\RegistrationForms\RegistrationFormResource;
 
@@ -35,6 +36,10 @@ final class FilamentFormBuilderPlugin implements Plugin
 
         if ($resources !== []) {
             $panel->resources($resources);
+        }
+
+        if ((bool) config('filament-form-builder.filament.register_help_page', true)) {
+            $panel->pages([FormJsonSchemaHelp::class]);
         }
     }
 
