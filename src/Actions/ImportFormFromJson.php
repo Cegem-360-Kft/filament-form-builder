@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Madbox99\FilamentFormBuilder\Actions;
 
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
 use Madbox99\FilamentFormBuilder\Support\FormBlueprint;
 
@@ -13,7 +14,7 @@ final class ImportFormFromJson
     /**
      * @param  array<string, mixed>  $payload
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function execute(array $payload): RegistrationForm
     {

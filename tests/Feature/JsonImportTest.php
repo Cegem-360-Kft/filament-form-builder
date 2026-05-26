@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Filament\Actions\Action;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Validation\ValidationException;
 use Madbox99\FilamentFormBuilder\Actions\ImportFormFromJson;
 use Madbox99\FilamentFormBuilder\Filament\Resources\RegistrationForms\Tables\Actions\ImportFormAction;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
@@ -53,7 +54,7 @@ it('throws ValidationException on invalid payload', function (): void {
     $payload['slug'] = 'Not Valid';
 
     expect(fn () => (new ImportFormFromJson)->execute($payload))
-        ->toThrow(\Illuminate\Validation\ValidationException::class);
+        ->toThrow(ValidationException::class);
 
     expect(RegistrationForm::count())->toBe(0);
 });
@@ -76,7 +77,7 @@ it('ImportFormAction::make() returns a configured Filament action', function ():
 });
 
 it('ImportFormAction::handle() creates a form from textarea JSON', function (): void {
-    $payload = \Madbox99\FilamentFormBuilder\Support\FormBlueprintSchema::fullExample();
+    $payload = FormBlueprintSchema::fullExample();
     $payload['slug'] = 'from-textarea';
 
     $form = ImportFormAction::handle(json: json_encode($payload), file: null);
@@ -87,5 +88,5 @@ it('ImportFormAction::handle() creates a form from textarea JSON', function (): 
 
 it('ImportFormAction::handle() rejects malformed JSON', function (): void {
     expect(fn () => ImportFormAction::handle(json: '{not-json', file: null))
-        ->toThrow(\Illuminate\Validation\ValidationException::class);
+        ->toThrow(ValidationException::class);
 });

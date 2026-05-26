@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Madbox99\FilamentFormBuilder\Filament\Pages\FormJsonSchemaHelp;
+use Madbox99\FilamentFormBuilder\Support\FormFieldBlueprint;
 
 it('exposes a navigation label and title via translations', function (): void {
     expect(FormJsonSchemaHelp::getNavigationLabel())->toBeString()->not->toBeEmpty();
@@ -23,7 +24,7 @@ it('exposes one example per field type', function (): void {
 
     $examples = $page->getFieldExamples();
 
-    foreach (\Madbox99\FilamentFormBuilder\Support\FormFieldBlueprint::TYPES as $type) {
+    foreach (FormFieldBlueprint::TYPES as $type) {
         expect($examples)->toHaveKey($type);
     }
 });

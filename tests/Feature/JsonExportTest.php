@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Madbox99\FilamentFormBuilder\Filament\Resources\RegistrationForms\Tables\Actions\ExportFormAction;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 uses(RefreshDatabase::class);
 
@@ -13,7 +14,7 @@ it('exports a form as a streamed JSON download', function (): void {
 
     $response = ExportFormAction::download($form);
 
-    expect($response)->toBeInstanceOf(\Symfony\Component\HttpFoundation\StreamedResponse::class);
+    expect($response)->toBeInstanceOf(StreamedResponse::class);
     expect($response->headers->get('Content-Type'))->toBe('application/json');
     expect($response->headers->get('Content-Disposition'))->toContain('my-form.json');
 

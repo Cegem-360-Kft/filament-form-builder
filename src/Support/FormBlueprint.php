@@ -6,6 +6,7 @@ namespace Madbox99\FilamentFormBuilder\Support;
 
 use Closure;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
 
 final class FormBlueprint
@@ -49,7 +50,7 @@ final class FormBlueprint
     /**
      * @param  array<string, mixed>  $payload
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public static function validate(array $payload): void
     {
