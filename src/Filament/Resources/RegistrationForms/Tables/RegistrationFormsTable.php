@@ -12,6 +12,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Madbox99\FilamentFormBuilder\Filament\Resources\RegistrationForms\Tables\Actions\ExportFormAction;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
 
 final class RegistrationFormsTable
@@ -49,6 +50,7 @@ final class RegistrationFormsTable
                     ->url(fn (RegistrationForm $record): string => $record->getPublicUrl())
                     ->openUrlInNewTab()
                     ->visible(fn (RegistrationForm $record): bool => (bool) $record->is_active),
+                ExportFormAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

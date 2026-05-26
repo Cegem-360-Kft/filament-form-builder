@@ -110,6 +110,7 @@ return [
         'embed_code' => 'Embed Code',
         'close' => 'Close',
         'preview' => 'Preview',
+        'export_json' => 'Export JSON',
     ],
     'embed' => [
         'direct_desc' => 'Share this link to open the form in a standalone page.',
