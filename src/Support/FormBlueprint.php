@@ -60,6 +60,9 @@ final class FormBlueprint
     {
         return [
             'schema_version' => ['required', 'integer', 'in:'.self::SCHEMA_VERSION],
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9-]+$/'],
+            'description' => ['nullable', 'string'],
         ];
     }
 }

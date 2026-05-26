@@ -48,3 +48,35 @@ it('accepts a minimal valid payload', function (): void {
 
     expect(true)->toBeTrue();
 });
+
+it('rejects missing name', function (): void {
+    $payload = validPayload();
+    unset($payload['name']);
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
+
+it('rejects too-long name', function (): void {
+    $payload = validPayload();
+    $payload['name'] = str_repeat('a', 256);
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
+
+it('rejects an invalid slug', function (): void {
+    $payload = validPayload();
+    $payload['slug'] = 'Bad Slug!';
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
+
+it('rejects missing slug', function (): void {
+    $payload = validPayload();
+    unset($payload['slug']);
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
