@@ -45,3 +45,23 @@ it('handles multiple collisions in sequence', function (): void {
 
     expect($third->slug)->toBe('collide-3');
 });
+
+it('throws ValidationException on invalid payload', function (): void {
+    $payload = FormBlueprintSchema::fullExample();
+    $payload['slug'] = 'Not Valid';
+
+    expect(fn () => (new ImportFormFromJson)->execute($payload))
+        ->toThrow(\Illuminate\Validation\ValidationException::class);
+
+    expect(RegistrationForm::count())->toBe(0);
+});
+
+it('sanitizes custom_css before persisting', function (): void {
+    $payload = FormBlueprintSchema::fullExample();
+    $payload['slug'] = 'css-test';
+    $payload['custom_css'] = '@import url("evil");';
+
+    $form = (new ImportFormFromJson)->execute($payload);
+
+    expect($form->custom_css)->not->toContain('@import');
+});
