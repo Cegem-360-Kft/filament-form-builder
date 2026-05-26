@@ -35,10 +35,12 @@ final class FormBlueprint
      */
     public static function fromModel(RegistrationForm $form): array
     {
+        $serialized = $form->attributesToArray();
+
         $payload = ['schema_version' => self::SCHEMA_VERSION];
 
         foreach (self::DATA_KEYS as $key) {
-            $payload[$key] = $form->getAttribute($key);
+            $payload[$key] = $serialized[$key] ?? null;
         }
 
         return $payload;
