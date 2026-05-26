@@ -7,6 +7,7 @@ namespace Madbox99\FilamentFormBuilder\Filament\Resources\RegistrationForms\Page
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Madbox99\FilamentFormBuilder\Filament\Resources\RegistrationForms\RegistrationFormResource;
+use Madbox99\FilamentFormBuilder\Filament\Resources\RegistrationForms\Tables\Actions\ImportFormAction;
 use Override;
 
 class ListRegistrationForms extends ListRecords
@@ -17,6 +18,7 @@ class ListRegistrationForms extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ImportFormAction::make(),
             CreateAction::make(),
         ];
     }

@@ -93,6 +93,8 @@ return [
         'submitted_at' => 'Submitted At',
         'submissions_count' => 'Submissions Count',
         'created_at' => 'Created At',
+        'json_file' => 'JSON file',
+        'json_text' => 'JSON text',
     ],
     'field_types' => [
         'text_input' => 'Text',
@@ -111,6 +113,7 @@ return [
         'close' => 'Close',
         'preview' => 'Preview',
         'export_json' => 'Export JSON',
+        'import_json' => 'Import JSON',
     ],
     'embed' => [
         'direct_desc' => 'Share this link to open the form in a standalone page.',
@@ -120,6 +123,11 @@ return [
     'errors' => [
         'not_found' => 'Form not found',
         'rate_limit' => 'Too many submissions. Please try again in :seconds seconds.',
+    ],
+    'notifications' => [
+        'imported' => 'Form imported as ":slug"',
+        'json_invalid' => 'The provided JSON is not a valid form definition.',
+        'field_copied' => 'Field JSON copied to clipboard',
     ],
     'thank_you' => 'Thank you!',
     'submission_received' => 'Your submission has been received.',

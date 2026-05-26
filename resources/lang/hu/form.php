@@ -93,6 +93,8 @@ return [
         'submitted_at' => 'Beküldve',
         'submissions_count' => 'Beküldések száma',
         'created_at' => 'Létrehozva',
+        'json_file' => 'JSON fájl',
+        'json_text' => 'JSON szöveg',
     ],
     'field_types' => [
         'text_input' => 'Szöveg',
@@ -111,6 +113,7 @@ return [
         'close' => 'Bezárás',
         'preview' => 'Előnézet',
         'export_json' => 'JSON exportálás',
+        'import_json' => 'JSON import',
     ],
     'embed' => [
         'direct_desc' => 'Oszd meg ezt a linket, hogy az űrlap önálló oldalon megnyíljon.',
@@ -120,6 +123,11 @@ return [
     'errors' => [
         'not_found' => 'Az űrlap nem található',
         'rate_limit' => 'Túl sok beküldés. Próbáld újra :seconds másodperc múlva.',
+    ],
+    'notifications' => [
+        'imported' => 'Form importálva: ":slug"',
+        'json_invalid' => 'A megadott JSON nem érvényes formdefiníció.',
+        'field_copied' => 'Mező JSON-je a vágólapra másolva',
     ],
     'thank_you' => 'Köszönjük!',
     'submission_received' => 'A beküldésed megkaptuk.',
