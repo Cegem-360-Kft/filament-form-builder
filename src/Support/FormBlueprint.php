@@ -97,6 +97,12 @@ final class FormBlueprint
                 'max:255',
                 'regex:/^[A-Za-z0-9._\-]+$/',
             ],
+            'submission_actions' => ['nullable', 'array'],
+            'design_tokens' => ['nullable', 'array'],
+            'custom_css' => ['nullable', 'string', 'max:65535'],
+            'thank_you_message' => ['nullable', 'string'],
+            'redirect_url' => ['nullable', 'string', 'max:2048', 'url'],
+            'is_active' => ['required', 'boolean'],
         ];
     }
 }

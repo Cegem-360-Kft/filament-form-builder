@@ -141,3 +141,27 @@ it('accepts a select field with options', function (): void {
 
     expect(true)->toBeTrue();
 });
+
+it('rejects an invalid redirect_url', function (): void {
+    $payload = validPayload();
+    $payload['redirect_url'] = 'not a url';
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
+
+it('rejects a non-boolean is_active', function (): void {
+    $payload = validPayload();
+    $payload['is_active'] = 'sometimes';
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
+
+it('rejects custom_css over 65535 chars', function (): void {
+    $payload = validPayload();
+    $payload['custom_css'] = str_repeat('a', 65536);
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
