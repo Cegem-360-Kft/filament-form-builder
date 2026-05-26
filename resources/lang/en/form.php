@@ -114,6 +114,7 @@ return [
         'preview' => 'Preview',
         'export_json' => 'Export JSON',
         'import_json' => 'Import JSON',
+        'copy_field_json' => 'Copy field JSON',
     ],
     'embed' => [
         'direct_desc' => 'Share this link to open the form in a standalone page.',

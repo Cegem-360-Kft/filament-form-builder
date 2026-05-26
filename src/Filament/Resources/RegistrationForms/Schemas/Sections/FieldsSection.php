@@ -18,6 +18,9 @@ final class FieldsSection
                     ->blockNumbers(false)
                     ->blockIcons()
                     ->blocks(FieldBlocks::all())
+                    ->extraItemActions([
+                        CopyFieldJsonAction::make(),
+                    ])
                     ->columnSpanFull()
                     ->collapsible()
                     ->collapsed()

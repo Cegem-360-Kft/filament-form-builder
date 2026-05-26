@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Madbox99\FilamentFormBuilder;
 
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Madbox99\FilamentFormBuilder\Contracts\FormTenantResolver;
@@ -54,6 +56,10 @@ final class FilamentFormBuilderServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-form-builder');
 
         Livewire::component('filament-form-builder.public-registration-form', PublicRegistrationForm::class);
+
+        FilamentAsset::register([
+            Js::make('ffb-copy-to-clipboard', __DIR__.'/../resources/js/copy-to-clipboard.js'),
+        ], 'madbox99/filament-form-builder');
 
         if ((bool) config('filament-form-builder.routes.enabled', true)) {
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');

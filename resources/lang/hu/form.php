@@ -114,6 +114,7 @@ return [
         'preview' => 'Előnézet',
         'export_json' => 'JSON exportálás',
         'import_json' => 'JSON import',
+        'copy_field_json' => 'Mező JSON másolása',
     ],
     'embed' => [
         'direct_desc' => 'Oszd meg ezt a linket, hogy az űrlap önálló oldalon megnyíljon.',
