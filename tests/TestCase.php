@@ -22,4 +22,9 @@ abstract class TestCase extends OrchestraTestCase
             LivewireServiceProvider::class,
         ];
     }
+
+    protected function defineDatabaseMigrations(): void
+    {
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+    }
 }
