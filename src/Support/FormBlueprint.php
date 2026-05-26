@@ -58,6 +58,25 @@ final class FormBlueprint
      * @param  array<string, mixed>  $payload
      * @return array<string, mixed>
      */
+    public static function sanitize(array $payload): array
+    {
+        foreach (['description', 'redirect_url', 'thank_you_message', 'custom_css'] as $key) {
+            if (isset($payload[$key]) && is_string($payload[$key]) && trim($payload[$key]) === '') {
+                $payload[$key] = null;
+            }
+        }
+
+        if (isset($payload['custom_css']) && is_string($payload['custom_css'])) {
+            $payload['custom_css'] = CssSanitizer::sanitize($payload['custom_css']);
+        }
+
+        return $payload;
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     * @return array<string, mixed>
+     */
     private static function rules(array $payload): array
     {
         $allowedTypes = implode(',', FormFieldBlueprint::TYPES);

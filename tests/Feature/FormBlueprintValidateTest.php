@@ -165,3 +165,27 @@ it('rejects custom_css over 65535 chars', function (): void {
     expect(fn () => FormBlueprint::validate($payload))
         ->toThrow(ValidationException::class);
 });
+
+it('sanitizes custom_css through CssSanitizer', function (): void {
+    $payload = validPayload();
+    $payload['custom_css'] = '@import url("evil");';
+
+    $clean = FormBlueprint::sanitize($payload);
+
+    expect($clean['custom_css'])->not->toContain('@import');
+});
+
+it('normalises empty strings to null for nullable scalar fields', function (): void {
+    $payload = validPayload();
+    $payload['description'] = '';
+    $payload['redirect_url'] = '';
+    $payload['thank_you_message'] = '';
+    $payload['custom_css'] = '';
+
+    $clean = FormBlueprint::sanitize($payload);
+
+    expect($clean['description'])->toBeNull()
+        ->and($clean['redirect_url'])->toBeNull()
+        ->and($clean['thank_you_message'])->toBeNull()
+        ->and($clean['custom_css'])->toBeNull();
+});
