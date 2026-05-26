@@ -23,3 +23,25 @@ it('creates a form from a valid payload', function (): void {
     expect($form->submissions_count)->toBe(0);
     expect(RegistrationForm::count())->toBe(1);
 });
+
+it('uniquifies the slug on collision', function (): void {
+    $payload = FormBlueprintSchema::fullExample();
+    $payload['slug'] = 'lead-capture';
+
+    (new ImportFormFromJson)->execute($payload);
+    $second = (new ImportFormFromJson)->execute($payload);
+
+    expect($second->slug)->toBe('lead-capture-2');
+    expect($second->name)->toBe($payload['name']);
+});
+
+it('handles multiple collisions in sequence', function (): void {
+    $payload = FormBlueprintSchema::fullExample();
+    $payload['slug'] = 'collide';
+
+    (new ImportFormFromJson)->execute($payload);
+    (new ImportFormFromJson)->execute($payload);
+    $third = (new ImportFormFromJson)->execute($payload);
+
+    expect($third->slug)->toBe('collide-3');
+});
