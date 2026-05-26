@@ -80,3 +80,64 @@ it('rejects missing slug', function (): void {
     expect(fn () => FormBlueprint::validate($payload))
         ->toThrow(ValidationException::class);
 });
+
+it('rejects empty fields', function (): void {
+    $payload = validPayload();
+    $payload['fields'] = [];
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
+
+it('rejects an unknown field type', function (): void {
+    $payload = validPayload();
+    $payload['fields'] = [[
+        'type' => 'wat',
+        'data' => ['label' => 'X', 'name' => 'x', 'required' => false],
+    ]];
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
+
+it('rejects a field name with invalid characters', function (): void {
+    $payload = validPayload();
+    $payload['fields'] = [[
+        'type' => 'text_input',
+        'data' => ['label' => 'X', 'name' => 'bad-name', 'required' => false],
+    ]];
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
+
+it('rejects a select field without options', function (): void {
+    $payload = validPayload();
+    $payload['fields'] = [[
+        'type' => 'select',
+        'data' => ['label' => 'X', 'name' => 'x', 'required' => false],
+    ]];
+
+    expect(fn () => FormBlueprint::validate($payload))
+        ->toThrow(ValidationException::class);
+});
+
+it('accepts a select field with options', function (): void {
+    $payload = validPayload();
+    $payload['fields'] = [[
+        'type' => 'select',
+        'data' => [
+            'label' => 'Choice',
+            'name' => 'choice',
+            'required' => false,
+            'options' => [
+                ['label' => 'One', 'value' => 'one'],
+                ['label' => 'Two', 'value' => 'two'],
+            ],
+        ],
+    ]];
+
+    FormBlueprint::validate($payload);
+
+    expect(true)->toBeTrue();
+});

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Madbox99\FilamentFormBuilder\Support;
 
+use Closure;
 use Illuminate\Support\Facades\Validator;
 use Madbox99\FilamentFormBuilder\Models\RegistrationForm;
 
@@ -50,19 +51,52 @@ final class FormBlueprint
      */
     public static function validate(array $payload): void
     {
-        Validator::make($payload, self::rules())->validate();
+        Validator::make($payload, self::rules($payload))->validate();
     }
 
     /**
+     * @param  array<string, mixed>  $payload
      * @return array<string, mixed>
      */
-    private static function rules(): array
+    private static function rules(array $payload): array
     {
+        $allowedTypes = implode(',', FormFieldBlueprint::TYPES);
+        $typesNeedingOptions = ['select', 'checkbox_list', 'radio'];
+
         return [
             'schema_version' => ['required', 'integer', 'in:'.self::SCHEMA_VERSION],
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9-]+$/'],
             'description' => ['nullable', 'string'],
+            'fields' => ['required', 'array', 'min:1'],
+            'fields.*.type' => ['required', 'string', 'in:'.$allowedTypes],
+            'fields.*.data' => [
+                'required',
+                'array',
+                function (string $attribute, mixed $value, Closure $fail) use ($payload, $typesNeedingOptions): void {
+                    $parts = explode('.', $attribute);
+                    $index = $parts[1] ?? null;
+                    $type = data_get($payload, "fields.{$index}.type");
+                    if (! in_array($type, $typesNeedingOptions, true)) {
+                        return;
+                    }
+                    $options = is_array($value) ? ($value['options'] ?? null) : null;
+                    if (! is_array($options) || $options === []) {
+                        $fail("The {$attribute}.options field is required for {$type} fields.");
+                    }
+                },
+            ],
+            'fields.*.data.label' => ['required', 'string', 'max:255'],
+            'fields.*.data.name' => ['required', 'string', 'max:64', 'regex:/^[a-zA-Z0-9_]+$/'],
+            'fields.*.data.required' => ['nullable', 'boolean'],
+            'fields.*.data.options' => ['nullable', 'array'],
+            'fields.*.data.options.*.label' => ['required', 'string', 'max:255'],
+            'fields.*.data.options.*.value' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-z0-9._\-]+$/',
+            ],
         ];
     }
 }
