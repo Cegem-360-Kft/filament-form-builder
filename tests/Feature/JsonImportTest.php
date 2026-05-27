@@ -27,6 +27,28 @@ it('creates a form from a valid payload', function (): void {
     expect(RegistrationForm::count())->toBe(1);
 });
 
+it('defaults missing schema_version to the current version', function (): void {
+    $payload = FormBlueprintSchema::fullExample();
+    $payload['slug'] = 'no-schema-version';
+    unset($payload['schema_version']);
+
+    $form = (new ImportFormFromJson)->execute($payload);
+
+    expect($form)->toBeInstanceOf(RegistrationForm::class);
+    expect($form->slug)->toBe('no-schema-version');
+});
+
+it('still rejects an unsupported schema_version', function (): void {
+    $payload = FormBlueprintSchema::fullExample();
+    $payload['slug'] = 'bad-schema-version';
+    $payload['schema_version'] = 99;
+
+    expect(fn () => (new ImportFormFromJson)->execute($payload))
+        ->toThrow(ValidationException::class);
+
+    expect(RegistrationForm::count())->toBe(0);
+});
+
 it('uniquifies the slug on collision', function (): void {
     $payload = FormBlueprintSchema::fullExample();
     $payload['slug'] = 'lead-capture';

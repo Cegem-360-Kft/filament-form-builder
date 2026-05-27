@@ -18,6 +18,8 @@ final class ImportFormFromJson
      */
     public function execute(array $payload): RegistrationForm
     {
+        $payload['schema_version'] ??= FormBlueprint::SCHEMA_VERSION;
+
         FormBlueprint::validate($payload);
         $payload = FormBlueprint::sanitize($payload);
 
